@@ -1,20 +1,17 @@
 import pygame
-import random
-import math
+import random 
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_agg as agg
-import pylab
-import time
-from collections import defaultdict
+import pylab 
+from servicos import Servicos
 
 # Configurações iniciais
-WIDTH, HEIGHT = 800, 600
-NUM_CITIES = 60
-NUM_CENTERS = 10
-NUM_CITIES_SERVED = NUM_CITIES/NUM_CENTERS
-POPULATION_SIZE = 50
-GENERATIONS = 100
-MUTATION_RATE = 0.2
+LARGURA, ALTURA = 800, 600
+NUM_CIDADES = 60
+NUM_CENTROS = 10
+NUM_CIDADES_ATENDIDAS = NUM_CIDADES/NUM_CENTROS
+TAMANHO_POPULACAO = 50 
+TAXA_MUTACAO = 0.2
 
 VETOR_CORES = [
     (106, 137, 194), (181, 66, 51), (208, 162, 169), (165, 172, 29), (92, 169, 200),
@@ -31,140 +28,91 @@ VETOR_CORES = [
 
 # Inicializa o pygame
 pygame.init()
-screen = pygame.display.set_mode((WIDTH + 400, HEIGHT))
+tela = pygame.display.set_mode((LARGURA + 400, ALTURA))
 pygame.display.set_caption("Algoritmo Genético - Centros de Distribuição")
 
-# Gerar cidades com coordenadas aleatórias
-cities = [(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50)) for _ in range(NUM_CITIES)]
-
-# Função para calcular a distância euclidiana
-def distance(p1, p2):
-    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
-
-# Função para calcular o fitness de um indivíduo
-# Limita a 6 cidades por centro de distribuição
-def calculate_fitness(individual):
-    city_assignments = defaultdict(list)
-    total_distance = 0
-    for city in cities:
-        distances = [(distance(city, center), idx) for idx, center in enumerate(individual)]
-        distances.sort()  # Ordenar distâncias para encontrar o centro mais próximo
-        for dist, idx in distances:
-            if len(city_assignments[idx]) < 6:  # Limita a 6 cidades por centro
-                city_assignments[idx].append(city)
-                total_distance += dist
-                break
-    return -total_distance  # O fitness será negativo para minimizar a distância
-
-# Função para gerar um indivíduo aleatório
-def generate_individual():
-    return [(random.randint(0, WIDTH), random.randint(0, HEIGHT)) for _ in range(NUM_CENTERS)]
-
-# Função de mutação
-def mutate(individual):
-    if random.random() < MUTATION_RATE:
-        if NUM_CENTERS == 1:
-            index = 0
-        else:
-            index = random.randint(0, NUM_CENTERS - 1)
-        
-        individual[index] = (random.randint(0, WIDTH), random.randint(0, HEIGHT))
-    return individual
-
-# Função de crossover
-def crossover(parent1, parent2):
-    if NUM_CENTERS == 1:
-        split = 1
-    else:
-        split = random.randint(1, NUM_CENTERS - 1)
-    
-    child = parent1[:split] + parent2[split:]
-    return child
+# Instância da classe Servicos
+servicos = Servicos(LARGURA, ALTURA, NUM_CENTROS, NUM_CIDADES_ATENDIDAS, TAXA_MUTACAO)
+cidades = servicos.gera_cidades(NUM_CIDADES)
 
 # Inicializa a população
-population = [generate_individual() for _ in range(POPULATION_SIZE)]
+populacao = [servicos.gera_individuo() for _ in range(TAMANHO_POPULACAO)]
 
 # Configurar o gráfico do Matplotlib
 fig = pylab.figure(figsize=[4, 6])
 canvas = agg.FigureCanvasAgg(fig)
 ax = fig.add_subplot(111)
-fitness_evolution = []
+evolucao_fitness = []
 
 # Loop principal do algoritmo genético
-running = True
-generation = 0
-while running:
-    for event in pygame.event.get():
-       if event.type == pygame.QUIT:
-           running = False
-       elif event.type == pygame.KEYDOWN:
-           if event.key == pygame.K_q:
-               running = False
+executando = True
+geracao = 0
+while executando:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            executando = False
+        elif evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_q:
+                executando = False
 
-    # Avaliar a fitness da população
-    population_fitness = [(individual, calculate_fitness(individual)) for individual in population]
-    population_fitness.sort(key=lambda x: x[1], reverse=True)  # Ordena pela melhor fitness
+    # Avaliar o fitness da população e obter atribuições de cidade para a melhor solução
+    fitness_populacao = []
+    for individuo in populacao:
+        fitness, atribuicoes = servicos.calcula_fitness(individuo, cidades)
+        fitness_populacao.append((individuo, fitness))
+    fitness_populacao.sort(key=lambda x: x[1], reverse=True)  # Ordena pela melhor fitness
+    melhor_individuo, melhor_fitness = fitness_populacao[0]
+    atribuicoes_cidade = servicos.calcula_fitness(melhor_individuo, cidades)[1]
 
-    # Armazena a melhor fitness para visualização
-    fitness_evolution.append(population_fitness[0][1] * -1)
+    # Armazena o melhor fitness para visualização
+    evolucao_fitness.append(-melhor_fitness)
 
     # Atualizar o gráfico do Matplotlib
     ax.clear()
-    ax.plot(fitness_evolution, label="Fitness")
+    ax.plot(evolucao_fitness, label="Fitness")
     ax.set_title("Evolução do Fitness")
     ax.set_xlabel("Geração")
     ax.set_ylabel("Fitness")
     ax.legend()
     canvas.draw()
     renderer = canvas.get_renderer()
-    raw_data = renderer.buffer_rgba()
-    matplotlib_surface = pygame.image.frombuffer(raw_data, canvas.get_width_height(), "RGBA")
+    dados_raw = renderer.buffer_rgba()
+    superficie_matplotlib = pygame.image.frombuffer(dados_raw, canvas.get_width_height(), "RGBA")
 
-    print(f"Generation {generation}: Best fitness = {round(population_fitness[0][1], 2)}")
+    print(f"Geração {geracao}: Melhor fitness = {round(melhor_fitness, 2)}")
     # Seleção dos melhores indivíduos
-    parents = [individual for individual, _ in population_fitness[:POPULATION_SIZE // 2]]
+    pais = [individuo for individuo, _ in fitness_populacao[:TAMANHO_POPULACAO // 2]]
     # Gerar nova população
-    new_population = [population[0]]
-    
-    while len(new_population) < POPULATION_SIZE:
-        parent1 = random.choice(parents)
-        parent2 = random.choice(parents)
-        child = crossover(parent1, parent2)
-        child = mutate(child)
-        new_population.append(child)
+    nova_populacao = [melhor_individuo]
 
-    population = new_population
+    while len(nova_populacao) < TAMANHO_POPULACAO:
+        pai1 = random.choice(pais)
+        pai2 = random.choice(pais)
+        filho = servicos.crossover(pai1, pai2)
+        filho = servicos.mutar(filho)
+        nova_populacao.append(filho)
+
+    populacao = nova_populacao
 
     # Visualizar a geração atual
-    screen.fill((255, 255, 255))
+    tela.fill((255, 255, 255))
 
     # Desenhar cidades
-    for city in cities:
-        pygame.draw.circle(screen, (0, 0, 255), city, 5)
+    for cidade in cidades:
+        pygame.draw.circle(tela, (0, 0, 255), cidade, 5)
 
     # Desenhar centros de distribuição e conexões
-    best_individual = population_fitness[0][0]
-   
-    city_assignments = defaultdict(list)
-    for city in cities:
-        distances = [(distance(city, center), idx) for idx, center in enumerate(best_individual)]
-        distances.sort()
-        for dist, idx in distances:
-            if len(city_assignments[idx]) < NUM_CITIES_SERVED:
-                city_assignments[idx].append(city)
-                pygame.draw.line(screen, VETOR_CORES[idx], city, best_individual[idx], 3)
-                # pygame.draw.line(screen, (112, 112, 112), city, population_fitness[0][1], 1)
-                break
+    for idx, centro in enumerate(melhor_individuo):
+        pygame.draw.circle(tela, (255, 0, 0), centro, 8)
+        for cidade in atribuicoes_cidade[idx]:
+            pygame.draw.line(tela, VETOR_CORES[idx], cidade, centro, 3)
 
-    for center in best_individual:
-        pygame.draw.circle(screen, (255, 0, 0), center, 8)
-  
     # Desenhar o gráfico ao lado
-    screen.blit(matplotlib_surface, (WIDTH, 0))
+    tela.blit(superficie_matplotlib, (LARGURA, 0))
 
     # Atualizar a tela
     pygame.display.flip()
 
-    generation += 1
+    geracao += 1
 
 pygame.quit()
