@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\FelipeMonteiro\OneDrive - Olik\Área de Trabalho\TESTE\Algoritmo_Genetico\venv
+set VIRTUAL_ENV=C:\Users\DELL\Documents\FIAP\IA para DEVs\2_Tech_Challenge\TechChallenge_Fase2\Python\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
