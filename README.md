@@ -1,171 +1,52 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Algoritmo Genético - Centros de Distribuição
 
-# C extensions
-*.so
+Este projeto implementa um algoritmo genético para otimizar a distribuição de centros em uma configuração simulada de cidades. Ele utiliza Pygame para renderização gráfica e Matplotlib para visualizar a evolução do fitness ao longo das gerações.
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+## Pré-requisitos
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+Antes de começar, você precisará instalar Python em seu sistema. Este projeto foi desenvolvido usando Python 3.8 ou superior. Você também precisará de algumas bibliotecas Python, incluindo Pygame para a interface gráfica e Matplotlib para a visualização de dados.
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+### Instalação do Python
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
+1. **Windows:** Você pode baixar o instalador do Python em [python.org](https://www.python.org/downloads/).
+2. **macOS:** Recomenda-se usar o Homebrew para instalar Python com `brew install python`.
+3. **Linux:** Python geralmente já está instalado, ou você pode instalá-lo via gerenciador de pacotes com `sudo apt install python3`.
 
-# Translations
-*.mo
-*.pot
+### Configuração do Ambiente Virtual
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+É recomendável usar um ambiente virtual para gerenciar as dependências. Para criar e ativar um ambiente virtual, use:
 
-# Flask stuff:
-instance/
-.webassets-cache
+```bash
+python -m venv venv
+source venv/bin/activate  # No Unix ou macOS
+venv\Scripts\activate  # No Windows
+```
 
-# Scrapy stuff:
-.scrapy
+### Instalação das Dependências
 
-# Sphinx documentation
-docs/_build/
+Com o ambiente virtual ativado, instale as dependências necessárias com:
 
-# PyBuilder
-.pybuilder/
-target/
+ ```bash
+pip install pygame matplotlib 
+```
 
-# Jupyter Notebook
-.ipynb_checkpoints
+A biblioteca `matplotlib.backends.backend_agg` e o módulo `pylab` são partes do Matplotlib e não requerem instalação separada. O módulo `random` é padrão do Python e já está disponível com a instalação do Python.
 
-# IPython
-profile_default/
-ipython_config.py
+## Executando o Projeto
 
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
+Para executar o projeto, clone este repositório, navegue até o diretório clonado, e execute o script principal:
+ 
+<URL-do-repositorio>
+<nome-do-repositorio>
+python Centro_Distribuicao.py 
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+`Centro_Distribuicao.py` deve ser o nome do arquivo que contém o código principal.
 
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#uv.lock
+## Estrutura do Código
 
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
+- **Centro_Distribuicao.py:** Contém a lógica principal do algoritmo genético e a interface gráfica com Pygame.
+- **servicos.py:** Deve conter as definições da classe `Servicos`, responsável por operações como geração de cidades, cálculo de fitness, crossover e mutação.
 
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#pdm.lock
-#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
-#   in version control.
-#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
-.pdm.toml
-.pdm-python
-.pdm-build/
+## Contribuições
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
-
-# PyPI configuration file
-.pypirc
+Contribuições são bem-vindas! Para contribuir, por favor faça um fork do repositório, crie uma branch para suas modificações, e submeta um pull request.
