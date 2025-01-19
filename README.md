@@ -3,6 +3,15 @@
 ## Visão Geral
 Este documento explica a implementação de um algoritmo genético projetado para otimizar a localização de centros de distribuição com o objetivo de minimizar a distância total entre as cidades e esses centros. O código é executado com uma interface gráfica utilizando a biblioteca Pygame para visualização e Matplotlib para plotagem da evolução do algoritmo.
 
+# Environments
+#.env
+#.venv
+#env/
+#venv/
+#ENV/
+#env.bak/
+#venv.bak/
+
 ## Bibliotecas Utilizadas
 - **Pygame**: Usada para criar a interface gráfica e gerenciar eventos de usuário, como fechar a janela ou interagir com a simulação.
 - **Random**: Utilizada para a geração de números aleatórios, essencial para operações de mutação e crossover no algoritmo genético.
