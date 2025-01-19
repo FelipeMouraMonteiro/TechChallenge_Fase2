@@ -1,44 +1,171 @@
-# Documentação: Algoritmo Genético para Otimização de Centros de Distribuição
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-## Visão Geral
-Este documento explica a implementação de um algoritmo genético projetado para otimizar a localização de centros de distribuição com o objetivo de minimizar a distância total entre as cidades e esses centros. O código é executado com uma interface gráfica utilizando a biblioteca Pygame para visualização e Matplotlib para plotagem da evolução do algoritmo.
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# UV
+#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#uv.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
+.pdm.toml
+.pdm-python
+.pdm-build/
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
 
 # Environments
-#.env
-#.venv
-#env/
-#venv/
-#ENV/
-#env.bak/
-#venv.bak/
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-## Bibliotecas Utilizadas
-- **Pygame**: Usada para criar a interface gráfica e gerenciar eventos de usuário, como fechar a janela ou interagir com a simulação.
-- **Random**: Utilizada para a geração de números aleatórios, essencial para operações de mutação e crossover no algoritmo genético.
-- **Math**: Fornece funções matemáticas necessárias, como a função de raiz quadrada usada no cálculo de distâncias euclidianas.
-- **Matplotlib**: Usada para criar gráficos que mostram a evolução da função de fitness ao longo das gerações.
-- **Collections (defaultdict)**: Facilita a manipulação de dicionários ao proporcionar valores padrão para chaves que ainda não existem.
+# Spyder project settings
+.spyderproject
+.spyproject
 
-## Configuração Inicial
-As variáveis configuradas inicialmente incluem dimensões da tela para a simulação, número de cidades e centros de distribuição, o tamanho da população do algoritmo genético, o número de gerações a serem simuladas e a taxa de mutação.
+# Rope project settings
+.ropeproject
 
-## Funcionalidades do Código
-### Geração de Indivíduos
-Cada indivíduo na população representa um possível conjunto de localizações para os centros de distribuição. A inicialização e as mutações são feitas com base em coordenadas aleatórias dentro dos limites definidos pela tela.
+# mkdocs documentation
+/site
 
-### Cálculo de Fitness
-O fitness de cada indivíduo é calculado como a negação da soma das distâncias das cidades aos seus centros de distribuição mais próximos. A abordagem visa minimizar a distância total, portanto, melhores soluções têm fitness mais alto (menos negativo).
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-### Seleção e Reprodução
-Utiliza-se um método de seleção baseado no fitness para escolher quais indivíduos passarão seus genes para a próxima geração. Crossovers e mutações são aplicados para gerar diversidade genética.
+# Pyre type checker
+.pyre/
 
-### Visualização
-As posições das cidades e dos centros são representadas na tela com diferentes cores. Linhas são desenhadas conectando cada cidade ao seu centro de distribuição designado.
+# pytype static type analyzer
+.pytype/
 
-### Evolução do Fitness
-A evolução do fitness é plotada em um gráfico ao lado da visualização principal, mostrando como o melhor fitness evolui com cada geração, oferecendo insights sobre a performance do algoritmo.
+# Cython debug symbols
+cython_debug/
 
-## Encerramento do Programa
-O loop principal do algoritmo continua até que o usuário feche a janela do Pygame ou interrompa o processo através de uma entrada de teclado específica.
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
 
-Este documento fornece uma visão geral clara da estrutura e funcionamento do algoritmo genético para otimização de centros de distribuição, permitindo a qualquer usuário compreender e manipular o código com propriedade.
+# PyPI configuration file
+.pypirc
